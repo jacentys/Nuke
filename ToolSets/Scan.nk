@@ -1,0 +1,120 @@
+set cut_paste_input [stack 0]
+version 10.5 v3
+CheckerBoard2 {
+ inputs 0
+ boxsize {{Input1.width x14 2} {1/StickyNote1.czestotliwosc+0.01}}
+ color0 1
+ color1 1
+ color2 0
+ color3 0
+ linecolor 0
+ centerlinewidth 0
+ name CheckerBoard4
+ selected true
+ xpos -76
+ ypos -375
+}
+Reformat {
+ resize none
+ name Reformat1
+ selected true
+ xpos -76
+ ypos -303
+}
+set N133b0f90 [stack 0]
+Noise {
+ type turbulence
+ size {{StickyNote1.noisesc}}
+ zoffset {{frame}}
+ lacunarity 1.3
+ gain 1
+ gamma 1
+ center {960 540}
+ color 0
+ name Noise1
+ selected true
+ xpos -76
+ ypos -279
+}
+Blur {
+ size {{StickyNote1.blurek}}
+ name Blur1
+ selected true
+ xpos -76
+ ypos -255
+}
+push $N133b0f90
+Noise {
+ type turbulence
+ size {{StickyNote1.noisesc}}
+ zoffset {{frame}}
+ lacunarity 1.3
+ gain 1
+ gamma 1
+ center {960 540}
+ color 0
+ name Noise2
+ selected true
+ xpos -186
+ ypos -303
+}
+Invert {
+ name Invert1
+ selected true
+ xpos -186
+ ypos -279
+}
+Blur {
+ size {{StickyNote1.blurek}}
+ name Blur2
+ selected true
+ xpos -186
+ ypos -251
+}
+push $cut_paste_input
+Dot {
+ name Dot1
+ selected true
+ xpos -290
+ ypos -339
+}
+Grade {
+ inputs 1+1
+ multiply {{1-StickyNote1.kontrast}}
+ name Grade1
+ selected true
+ xpos -324
+ ypos -228
+}
+Grade {
+ inputs 1+1
+ multiply {{1+StickyNote1.kontrast}}
+ name Grade2
+ selected true
+ xpos -324
+ ypos -204
+}
+Dot {
+ name Dot2
+ selected true
+ xpos -290
+ ypos -98
+}
+StickyNote {
+ inputs 0
+ name StickyNote1
+ label "Sterowanie\nScanLine"
+ note_font_size 32
+ selected true
+ xpos -532
+ ypos -239
+ addUserKnob {20 Nastawy}
+ addUserKnob {7 noisesc l "Skala noise" R 0 10}
+ noisesc 1.6
+ addUserKnob {7 blurek l Blur R 0 20}
+ blurek 12.7
+ addUserKnob {7 czestotliwosc l "Częstotliwość pasków"}
+ czestotliwosc 0.115
+ addUserKnob {7 kontrast l "Kontrast pasków"}
+ kontrast 0.82
+}

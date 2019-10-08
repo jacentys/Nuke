@@ -1,0 +1,51 @@
+set cut_paste_input [stack 0]
+version 10.5 v3
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0xaaaaaa00
+ label Pixeloza
+ note_font_size 42
+ selected true
+ xpos -217
+ ypos -137
+ bdwidth 271
+ bdheight 260
+}
+push $cut_paste_input
+Dot {
+ name Dot1
+ selected true
+ xpos -104
+ ypos -43
+}
+Reformat {
+ type scale
+ scale 0.03
+ filter Lanczos4
+ name Reformat1
+ selected true
+ xpos -138
+ ypos -3
+}
+Grade {
+ name Grade1
+ selected true
+ xpos -138
+ ypos 21
+}
+Reformat {
+ type scale
+ scale {{1/Reformat1.scale}}
+ filter Impulse
+ name Reformat2
+ selected true
+ xpos -138
+ ypos 45
+}
+Dot {
+ name Dot2
+ selected true
+ xpos -104
+ ypos 87
+}

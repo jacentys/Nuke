@@ -1,0 +1,150 @@
+set cut_paste_input [stack 0]
+version 10.5 v2
+BackdropNode {
+ inputs 0
+ name Compo_3D
+ tile_color 0xb0a560ff
+ label "Compo 3D"
+ note_font_size 42
+ selected true
+ xpos -426
+ ypos -52
+ bdwidth 367
+ bdheight 598
+}
+Dot {
+ inputs 0
+ name Dot6
+ label vRay.Shadow
+ note_font_size 18
+ selected true
+ xpos -244
+ ypos 417
+}
+set N2910a130 [stack 0]
+Grade {
+ name Grade1
+ selected true
+ xpos -278
+ ypos 457
+}
+push $N2910a130
+Dot {
+ inputs 0
+ name Dot5
+ label vRay.Selfilumination
+ note_font_size 18
+ selected true
+ xpos -244
+ ypos 350
+}
+Dot {
+ inputs 0
+ name Dot4
+ label vRay.Refraction
+ note_font_size 18
+ selected true
+ xpos -244
+ ypos 284
+}
+Dot {
+ inputs 0
+ name Dot3
+ label vRay.Reflection
+ note_font_size 18
+ selected true
+ xpos -244
+ ypos 223
+}
+Dot {
+ inputs 0
+ name Dot2
+ label vRay.Specular
+ note_font_size 18
+ selected true
+ xpos -244
+ ypos 162
+}
+Dot {
+ inputs 0
+ name Dot1
+ label vRay.Lighting
+ note_font_size 18
+ selected true
+ xpos -244
+ ypos 100
+}
+push $cut_paste_input
+Dot {
+ name Dot7
+ label vRay.GI
+ note_font_size 18
+ selected true
+ xpos -344
+ ypos 44
+}
+Merge2 {
+ inputs 2
+ operation plus
+ name Add_Lighting
+ selected true
+ xpos -378
+ ypos 97
+}
+Merge2 {
+ inputs 2
+ operation plus
+ name Add_Specular
+ selected true
+ xpos -378
+ ypos 159
+}
+Merge2 {
+ inputs 2
+ operation plus
+ name Add_Reflection
+ selected true
+ xpos -378
+ ypos 220
+}
+Merge2 {
+ inputs 2
+ operation plus
+ name Add_Refraction
+ selected true
+ xpos -378
+ ypos 281
+}
+Merge2 {
+ inputs 2
+ operation plus
+ name Add_Selfillumination
+ selected true
+ xpos -378
+ ypos 347
+}
+Merge2 {
+ inputs 2
+ operation from
+ name From_Shadow
+ selected true
+ xpos -378
+ ypos 414
+}
+Merge2 {
+ inputs 2
+ operation plus
+ name Add_Shadow
+ selected true
+ xpos -378
+ ypos 495
+}
+StickyNote {
+ inputs 0
+ name StickyNote1
+ label "<B>RenderMan</B>\nSpecularDirect\n– SpecularDirectShadow\n+ SpecularIndirect\n+ SpecularEnvironment\n+ Ambient\n+ DiffuseDirect\n+ Translucence\n– DiffuseDirectShadow\n+ DiffuseIndirect\n+ DiffuseEnvironment\n+ Backscattering\n+ Subsurface\n+ Rim\n+ Refraction\n+ Incandescence = Beauty\n<B>Arnold</B>\ndirect_diffuse\n+ indirect_diffuse\n+ direct_specular\n+ indirect_specular\n+ refraction\n+ deep_scatter\n+ mid_scatter\n+ shallow_scatter\n+ primary_specular\n+ secondary_specular = Beauty\n<B>V-Ray</B>\nGI\n+ Lighting\n+ Specular\n+ Reflection\n+ Refraction\n+ SelfIllum\n+ SSS = Beauty\n<B>Mental Ray</B>\nDiffuse\n+ Indirect\n+ Specular\n+ Reflection\n+ Refraction\n+ Incandescent\n+ Scatter = Beauty"
+ note_font_size 16
+ selected true
+ xpos -681
+ ypos -59
+}

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<defaults>
+  <default knob="before" node="Read">hold</default>
+  <default knob="after" node="Read">hold</default>
+  <default knob="lifetime_type" node="RotoPaint">all frames</default>
+  <default knob="hide_progress_bar" node="Tracker">true</default>
+  <default knob="show_error_on_track" node="Tracker">true</default>
+  <default knob="inverted" node="Roto">True</default>
+  <default knob="color" node="Roto">0.0</default>
+  <default knob="max_error" node="Tracker">0.01</default>
+  <default knob="zoom_window_size" node="Tracker">3</default>
+  <default knob="resize" node="Reformat">none</default>
+</defaults>

@@ -1,0 +1,51 @@
+set cut_paste_input [stack 0]
+version 10.5 v1
+Read {
+ inputs 0
+ file /Users/jacenty/Desktop/Kasztelan-Rozpalamy-27-170117/010-Src/napisy/kapsel.png
+ format "1000 715 0 0 1000 715 1 "
+ origset true
+ name Read2
+ selected true
+ xpos 947
+ ypos 200
+}
+Premult {
+ name Premult1
+ selected true
+ xpos 947
+ ypos 280
+}
+CornerPin2D {
+ to1 {-58 -22}
+ to2 {1168 16}
+ to3 {980 762}
+ to4 {24 712}
+ invert false
+ from1 {0 0}
+ from2 {1000 0}
+ from3 {1000 715}
+ from4 {0 715}
+ name CornerPin2D1
+ selected true
+ xpos 947
+ ypos 304
+}
+Transform {
+ translate {94 588}
+ rotate 46
+ scale 0.55
+ center {500 357.5}
+ name Transform6
+ selected true
+ xpos 947
+ ypos 328
+}
+push $cut_paste_input
+Merge2 {
+ inputs 2
+ name Merge1
+ selected true
+ xpos 680
+ ypos 328
+}

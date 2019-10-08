@@ -1,0 +1,16 @@
+set cut_paste_input [stack 0]
+version 10.5 v3
+push $cut_paste_input
+Transform {
+ translate {8.07128334 0}
+ skewX {{sin((frame+(center.x*5+center.x*5))*sb)*0.02 x63 0 x95 0}}
+ center {1106 360}
+ shutter 0.43
+ name Bujanie
+ selected true
+ xpos 516
+ ypos 234
+ addUserKnob {20 User}
+ addUserKnob {7 sb l "Szybkosc Bujania" R 0.01 2}
+ sb 0.07
+}

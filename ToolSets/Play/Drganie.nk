@@ -1,0 +1,39 @@
+set cut_paste_input [stack 0]
+version 10.5 v3
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0x71c67100
+ label Drganie
+ note_font_size 42
+ selected true
+ xpos 267
+ ypos -68
+ bdwidth 193
+ bdheight 172
+}
+push $cut_paste_input
+CornerPin2D {
+ to1 {{random(frame)>0.8?-(random(frame)*skala_ld):0} 0}
+ to2 {{random(frame+100)>0.8?1920+(random(frame)*skala_pd):1920} 0}
+ to3 {{random(frame+100)>0.8?1920+(random(frame)*skala_pg):1920} 1080}
+ to4 {{random(frame)>0.8?-(random(frame)*skala_lg):0} 1080}
+ invert false
+ from1 {0 0}
+ from2 {1920 0}
+ from3 {1920 1080}
+ from4 {0 1080}
+ name Drganie
+ selected true
+ xpos 330
+ ypos 56
+ addUserKnob {20 User}
+ addUserKnob {7 skala_ld l "Skala skoku LD" R 0 100}
+ skala_ld 9
+ addUserKnob {7 skala_pd l "Skala skoku PD" R 0 100}
+ skala_pd 45.5
+ addUserKnob {7 skala_lg l "Skala skoku LG" R 0 100}
+ skala_lg 16.5
+ addUserKnob {7 skala_pg l "Skala skoku PG" R 0 100}
+ skala_pg 18
+}
