@@ -1,0 +1,201 @@
+set cut_paste_input [stack 0]
+version 10.5 v1
+BackdropNode {
+ inputs 0
+ name BackdropNode11
+ tile_color 0x8e388e00
+ label "Efekt tv"
+ note_font_size 42
+ selected true
+ xpos 1270
+ ypos 1002
+ bdwidth 360
+ bdheight 294
+}
+Roto {
+ inputs 0
+ curves {{{v x3f99999a}
+  {f 0}
+  {n
+   {layer Root
+    {f 2097152}
+    {t x44700000 x44070000}
+    {a pt1x 0 pt1y 0 pt2x 0 pt2y 0 pt3x 0 pt3y 0 pt4x 0 pt4y 0 ptex00 0 ptex01 0 ptex02 0 ptex03 0 ptex10 0 ptex11 0 ptex12 0 ptex13 0 ptex20 0 ptex21 0 ptex22 0 ptex23 0 ptex30 0 ptex31 0 ptex32 0 ptex33 0 ptof1x 0 ptof1y 0 ptof2x 0 ptof2y 0 ptof3x 0 ptof3y 0 ptof4x 0 ptof4y 0 pterr 0 ptrefset 0 ptmot x40800000 ptref 0}
+    {curvegroup Ellipse1 512 bezier
+     {{cc
+       {f 8192}
+       {px x41e80000
+        {xc16a2b00 0}
+        {x44d05000 x426c0000}
+        {x416a2b00 0}
+        {0 xc16a2b30}
+        {x44d3a000 x42ab0000}
+        {0 x416a2b30}
+        {x416a2b00 0}
+        {x44d05000 x42e00000}
+        {xc16a2b00 0}
+        {0 x416a2b30}
+        {x44cd0000 x42ab0000}
+        {0 xc16a2b30}}}
+      {cc
+       {f 8192}
+       {p
+        {{{x41e80000 xc16a2b00}}
+      {{x41e80000 0}}}
+        {{{x41e80000 0}}
+      {{x41e80000 0}}}
+        {{{x41e80000 x416a2b00}}
+      {{x41e80000 0}}}
+        {{{x41e80000 0}}
+      {{x41e80000 xc16a2b30}}}
+        {{{x41e80000 0}}
+      {{x41e80000 0}}}
+        {{{x41e80000 0}}
+      {{x41e80000 x416a2b30}}}
+        {{{x41e80000 x416a2b00}}
+      {{x41e80000 0}}}
+        {{{x41e80000 0}}
+      {{x41e80000 0}}}
+        {{{x41e80000 xc16a2b00}}
+      {{x41e80000 0}}}
+        {{{x41e80000 0}}
+      {{x41e80000 x416a2b30}}}
+        {{{x41e80000 0}}
+      {{x41e80000 0}}}
+        {{{x41e80000 0}}
+      {{x41e80000 xc16a2b30}}}}}}
+     {tx x41e80000 x44d05000 x42ab0000}
+     {a osw x41200000 osf 0 str 1 spx x44700000 spy x44070000 sb 1 ltn x41e80000 ltm x41e80000 tt x40e00000}}}}}}
+ toolbox {selectAll {
+  { selectAll str 1 ssx 1 ssy 1 sf 1 }
+  { createBezier str 1 ssx 1 ssy 1 sf 1 sb 1 tt 4 }
+  { createBezierCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createBSpline str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createEllipse str 1 ssx 1 ssy 1 sf 1 sb 1 tt 7 }
+  { createRectangle str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { createRectangleCusped str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { brush str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { eraser src 2 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { clone src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { reveal src 3 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { dodge src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { burn src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { blur src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { sharpen src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+  { smear src 1 str 1 ssx 1 ssy 1 sf 1 sb 1 }
+} }
+ toolbar_brush_hardness 0.200000003
+ toolbar_source_transform_scale {1 1}
+ toolbar_source_transform_center {960 540}
+ colorOverlay {0 0 0 0}
+ lifetime_type "all frames"
+ lifetime_start 29
+ lifetime_end 29
+ motionblur_shutter_offset_type centred
+ source_black_outside true
+ name Roto1
+ selected true
+ xpos 1540
+ ypos 1112
+}
+EdgeDetectWrapper {
+ threshold 0.44
+ name EdgeDetect1
+ selected true
+ xpos 1540
+ ypos 1136
+}
+Constant {
+ inputs 0
+ channels rgb
+ color {1 0 0 0}
+ name Constant1
+ selected true
+ xpos 1390
+ ypos 1082
+}
+Copy {
+ inputs 2
+ from0 rgba.alpha
+ to0 rgba.alpha
+ name Copy1
+ selected true
+ xpos 1390
+ ypos 1180
+}
+Premult {
+ name Premult1
+ selected true
+ xpos 1390
+ ypos 1212
+}
+Text2 {
+ font_size_toolbar 173
+ font_width_toolbar 100
+ font_height_toolbar 100
+ message REC
+ old_message {{82 69 67}
+   }
+ box {1707 45.5 1849 114.5}
+ transforms {{0 2}
+   }
+ font_size_values {{0 68 1 68 2 68 0 173 1 173 2 173}
+   }
+ cursor_position 1
+ font {{ Helvetica : Bold : Helvetica.dfont : 5 }}
+ font_size 173
+ scale {1 1}
+ cursor_initialised true
+ autofit_bbox false
+ initial_cursor_position {{1612.5 167}
+   }
+ group_animations {{0} imported: 0 selected: items: "root transform/"}
+ animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+   }
+ color {0 0 0 1}
+ name Text1
+ selected true
+ xpos 1390
+ ypos 1236
+}
+Multiply {
+ value 0
+ mix {{sin(frame*0.3)*10}}
+ name Multiply1
+ selected true
+ xpos 1390
+ ypos 1260
+}
+push $cut_paste_input
+OFXcom.genarts.sapphire.stylize.s_scanlines_v1 {
+ lines_frequency 5000.000237
+ lines_sharpness 0.5000000237
+ lines_angle 0
+ lines_shift 0
+ shift_red 0
+ shift_green 0
+ shift_blue 0
+ add_noise 0
+ noise_freq_rel 1
+ brightness 1
+ scale_color 1
+ offset 0
+ gamma 1.5
+ saturation 0.5
+ smooth_source 0
+ ShowLinesAngle false
+ Enable_GPU true
+ version 10
+ version2 10559847
+ name S_ScanLines1
+ selected true
+ xpos 1280
+ ypos 1240
+}
+Merge2 {
+ inputs 2
+ name Merge1
+ selected true
+ xpos 1280
+ ypos 1264
+}

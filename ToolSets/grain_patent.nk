@@ -1,0 +1,589 @@
+set cut_paste_input [stack 0]
+version 10.0 v5
+BackdropNode {
+inputs 0
+name BackdropNode5
+tile_color 0x242424ff
+label GRAIN
+note_font_size 30
+selected true
+xpos -133
+ypos 2101
+bdwidth 622
+bdheight 285
+}
+push 0
+Dot {
+name Dot32
+selected true
+xpos 382
+ypos 2008
+}
+PostageStamp {
+name PostageStamp3
+label "BG PLATE"
+selected true
+xpos 348
+ypos 2222
+hide_input true
+postage_stamp true
+}
+PostageStamp {
+inputs 0
+name PostageStamp2
+label "BG DENOISE"
+selected true
+xpos -48
+ypos 2222
+hide_input true
+postage_stamp true
+}
+push $cut_paste_input
+Dot {
+name Dot31
+selected true
+xpos 184
+ypos 2024
+}
+Group {
+inputs 3
+name C_OriginalGrain
+tile_color 0x151515ff
+label "CHIMNEY\nv7\n\[value Output]"
+note_font Verdana
+selected true
+xpos 150
+ypos 2235
+addUserKnob {20 Controls}
+addUserKnob {41 gamma l normalise T Gamma1.value}
+addUserKnob {7 NegativeBlacks R 0 0.9}
+NegativeBlacks 0.01
+addUserKnob {26 ""}
+addUserKnob {26 ""}
+addUserKnob {41 Output T GizmoControl.Output}
+addUserKnob {20 GrainPlate_Key}
+addUserKnob {41 GrainPlateKey T GizmoControl.GrainPlateKey}
+addUserKnob {6 Inspect +STARTLINE}
+addUserKnob {7 gain_1 l gain R 0 200}
+gain_1 100
+addUserKnob {41 size l Erode T Erode_Difference.size}
+addUserKnob {41 size_1 l Blur T Blur_Difference.size}
+addUserKnob {20 GrainPlate}
+addUserKnob {41 GrainPlate_1 l GrainPlate T GizmoControl.GrainPlate}
+addUserKnob {41 fullGrain l grain T ScannedGrain1.fullGrain}
+addUserKnob {41 fullGrain.first_frame l "frame range" T ScannedGrain1.fullGrain.first_frame}
+addUserKnob {41 fullGrain.last_frame l "" -STARTLINE T ScannedGrain1.fullGrain.last_frame}
+addUserKnob {26 "" l "@b;Amount of grain"}
+addUserKnob {41 amount T ScannedGrain1.amount}
+addUserKnob {41 saturation T ScannedGrain1.saturation}
+addUserKnob {41 use_precomputed l "use precomputed table" T ScannedGrain1.use_precomputed}
+addUserKnob {26 ""}
+addUserKnob {41 weight l "" -STARTLINE T ScannedGrain1.weight}
+addUserKnob {41 low_clip T ScannedGrain1.low_clip}
+addUserKnob {26 ""}
+addUserKnob {41 seed T ScannedGrain1.seed}
+addUserKnob {6 multiply_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+addUserKnob {20 TransformGrain}
+addUserKnob {6 TransformGrain_active l active +STARTLINE}
+addUserKnob {12 translate}
+addUserKnob {7 rotate R -180 180}
+}
+BackdropNode {
+inputs 0
+name BackdropNode1
+tile_color 0x47474701
+label Difference
+note_font_size 30
+xpos -705
+ypos 163
+bdwidth 116
+bdheight 309
+}
+BackdropNode {
+inputs 0
+name BackdropNode2
+tile_color 0x3f1f1f01
+label Normalise
+note_font_size 30
+xpos -220
+ypos 62
+bdwidth 440
+bdheight 211
+}
+BackdropNode {
+inputs 0
+name BackdropNode3
+tile_color 0x1c311e01
+label GRAIN_Plate_ADD
+note_font_size 30
+xpos -220
+ypos 386
+bdwidth 275
+bdheight 226
+}
+BackdropNode {
+inputs 0
+name BackdropNode4
+tile_color 0x1a223101
+label GRAIN_TransformMask
+note_font_size 30
+xpos -160
+ypos 851
+bdwidth 107
+bdheight 143
+}
+BackdropNode {
+inputs 0
+name BackdropNode5
+tile_color 0x5b5e0101
+label Plate_Multiply
+note_font_size 30
+xpos -160
+ypos 683
+bdheight 110
+}
+BackdropNode {
+inputs 0
+name BackdropNode6
+tile_color 0x7f540001
+label GRAIN_ADD
+note_font_size 30
+xpos -160
+ypos 1115
+bdheight 110
+}
+BackdropNode {
+inputs 0
+name BackdropNode7
+tile_color 0x7f540001
+label "Scanned Grain"
+note_font_size 30
+xpos -1073
+ypos 200
+bdwidth 174
+bdheight 343
+}
+Input {
+inputs 0
+name ReduceNoise
+xpos -210
+ypos -128
+number 1
+}
+Dot {
+name Dot18
+xpos -176
+ypos -41
+}
+set N4cd55c00 [stack 0]
+Dot {
+name Dot20
+xpos -533
+ypos -41
+}
+Input {
+inputs 0
+name Composite
+xpos -802
+ypos -130
+}
+Expression {
+channel3 alpha
+expr3 a==0?0:a
+name Check_alpha
+xpos -802
+ypos -81
+}
+Dot {
+name Dot17
+xpos -768
+ypos -41
+}
+set N4cd54800 [stack 0]
+Dot {
+name Dot12
+xpos -658
+ypos -41
+}
+Difference {
+inputs 2
+gain {{parent.gain_1}}
+name Difference_Key
+xpos -695
+ypos 211
+}
+Clamp {
+channels alpha
+name Clamp_Difference
+xpos -695
+ypos 261
+}
+FilterErode {
+channels alpha
+size 0
+name Erode_Difference
+xpos -695
+ypos 312
+}
+Blur {
+channels alpha
+name Blur_Difference
+xpos -695
+ypos 374
+}
+push $N4cd54800
+Dot {
+name Dot10
+xpos -868
+ypos -41
+}
+set N521c5000 [stack 0]
+Dot {
+name Dot13
+xpos -868
+ypos 258
+}
+set N521c4c00 [stack 0]
+Switch {
+inputs 2
+which {{GizmoControl.GrainPlateKey}}
+name Switch_GrainKey
+xpos -695
+ypos 446
+}
+set N40d7b00 [stack 0]
+Shuffle {
+red alpha
+green alpha
+blue alpha
+name Shuffle1
+xpos -695
+ypos 1609
+}
+push $N521c4c00
+Dot {
+name Dot2
+xpos -868
+ypos 1431
+}
+Input {
+inputs 0
+name Grain_TMask
+xpos 379
+ypos -128
+number 3
+}
+Dot {
+name Dot15
+xpos 413
+ypos -49
+}
+Dot {
+name Dot16
+xpos 413
+ypos 930
+}
+push $N4cd54800
+Grade {
+black {{parent.NegativeBlacks}}
+black_clamp false
+name Lift_Blacks
+xpos -802
+ypos 2
+}
+set C522b1400 [stack 0]
+Dot {
+name Dot6
+xpos -768
+ypos 767
+}
+set N522b1000 [stack 0]
+Gamma {
+name Gamma1
+xpos -539
+ypos 757
+}
+set C522b0c00 [stack 0]
+push $N521c5000
+Dot {
+name Dot11
+xpos -955
+ypos -41
+}
+Dot {
+name Dot22
+xpos -955
+ypos 280
+}
+set N522b0400 [stack 0]
+Dot {
+name Dot23
+xpos -1063
+ypos 280
+}
+Dot {
+name Dot24
+xpos -1063
+ypos 517
+}
+push $N522b0400
+ScannedGrain {
+fullGrain Y:/grain_18974/assets/007_FilmGrain/2048x1556/FilmGrain_USE.######.exr
+fullGrain.first_frame 1001
+fullGrain.last_frame 1427
+amount 11
+weight {master {curve C 1 1}
+  red {}
+  green {}
+  blue {}}
+name ScannedGrain1
+xpos -989
+ypos 427
+}
+Merge2 {
+inputs 2
+operation minus
+name Merge1
+xpos -989
+ypos 513
+}
+set N52187400 [stack 0]
+push $N40d7b00
+Shuffle {
+red alpha
+green alpha
+blue alpha
+name Shuffle3
+xpos -508
+ypos 446
+}
+set N52187000 [stack 0]
+Merge2 {
+inputs 2
+operation multiply
+name Merge3
+xpos -508
+ypos 513
+}
+push $N52187000
+Invert {
+channels rgb
+name Invert1
+xpos -311
+ypos 446
+}
+Input {
+inputs 0
+name Plate
+xpos 130
+ypos -118
+number 2
+}
+Dot {
+name Dot19
+xpos 164
+ypos -42
+}
+clone $C522b1400 {
+xpos 130
+ypos 5
+selected false
+}
+Dot {
+name Dot7
+xpos 164
+ypos 146
+}
+set N52121800 [stack 0]
+push $N4cd55c00
+clone $C522b1400 {
+xpos -210
+ypos 9
+selected false
+}
+Merge2 {
+inputs 2
+operation minus
+name MINUS
+xpos -210
+ypos 142
+}
+set N52121000 [stack 0]
+push $N52121800
+clone $C522b0c00 {
+xpos 130
+ypos 231
+selected false
+}
+Merge2 {
+inputs 2
+operation divide
+name DIV
+xpos -210
+ypos 237
+}
+Dot {
+name Dot3
+xpos -176
+ypos 353
+}
+set N52120400 [stack 0]
+Merge2 {
+inputs 2
+operation multiply
+name Merge5
+xpos -210
+ypos 448
+}
+Merge2 {
+inputs 2
+operation plus
+name Merge4
+xpos -210
+ypos 513
+}
+push $N52120400
+Dot {
+name Dot1
+xpos -116
+ypos 353
+}
+Switch {
+inputs 2
+which 1
+name Switch_GrainPlate
+xpos -150
+ypos 579
+disable {{1-parent.GizmoControl.GrainPlate}}
+}
+Merge2 {
+inputs 2
+operation multiply
+name MULT
+xpos -150
+ypos 763
+}
+TransformMasked {
+inputs 1+1
+translate {{parent.translate} {parent.translate}}
+rotate {{parent.rotate}}
+center {1024 778}
+name TransformMask
+xpos -150
+ypos 920
+disable {{1-parent.TransformGrain_active}}
+}
+Dot {
+name Dot9
+xpos -116
+ypos 1070
+}
+set N5220ac00 [stack 0]
+push $N522b1000
+Dot {
+name Dot14
+xpos -768
+ypos 1199
+}
+Merge2 {
+inputs 2
+operation plus
+name PLUS
+xpos -150
+ypos 1195
+}
+set N5220a400 [stack 0]
+push $N52187400
+push $N5220ac00
+Dot {
+name Dot4
+xpos 17
+ypos 1070
+}
+Dot {
+name Dot5
+xpos 17
+ypos 1201
+}
+push $N52121000
+Dot {
+name Dot8
+xpos -285
+ypos 146
+}
+Dot {
+name Dot21
+xpos -285
+ypos 1345
+}
+Switch {
+inputs 4
+which {{GizmoControl.Output}}
+name Switch1
+xpos -150
+ypos 1341
+}
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+name Copy_Aplha
+xpos -150
+ypos 1421
+}
+Grade {
+black {{parent.Lift_Blacks.black}}
+reverse true
+black_clamp false
+name Reverse_Blacks3
+xpos -150
+ypos 1531
+}
+Switch {
+inputs 2
+which 1
+name Switch_Difference
+xpos -150
+ypos 1609
+disable {{1-parent.Inspect x1372 1}}
+}
+Crop {
+box {0 0 {width} {height}}
+name Crop1
+selected true
+xpos -150
+ypos 1693
+}
+Output {
+name Output
+xpos -150
+ypos 1792
+}
+NoOp {
+inputs 0
+name GizmoControl
+xpos 128
+ypos 1338
+addUserKnob {20 User}
+addUserKnob {4 Output M {"BG Grain" "Normalised Grain" "GRAIN Plate" Output "" "" ""}}
+Output Output
+addUserKnob {6 GrainPlate +STARTLINE}
+addUserKnob {4 GrainPlateKey M {alpha difference "" ""}}
+GrainPlateKey difference
+}
+push $N5220a400
+push $N52187400
+push $N522b0400
+Viewer {
+inputs 3
+frame_range 1001-1128
+input_number 1
+colour_sample_bbox {0.248046875 0.2021484375 0.2490234375 0.2026367188}
+samplepoints {{0.3291015625 0.19140625}
+  }
+viewerProcess "CinCC_Project_LUT_Cin (default)"
+name Viewer1
+xpos -40
+ypos 1427
+}
+end_group

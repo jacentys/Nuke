@@ -1,0 +1,107 @@
+set cut_paste_input [stack 0]
+version 10.0 v3
+push $cut_paste_input
+Group {
+ name FlashFrame
+ tile_color 0xffc600ff
+ label "\[value flash]"
+ note_font "Bitstream Vera Sans Bold Bold Bold Bold Bold Bold"
+ note_font_color 0x992312ff
+ selected true
+ xpos -255
+ ypos -44
+ addUserKnob {20 User}
+ addUserKnob {4 ff_type l duration t "choose between single frame or frame-range animation" M {"single frame" "extended range"}}
+ ff_type "extended range"
+ addUserKnob {3 flash l "flash frame" t "enter desired frame number for on/off effect"}
+ flash 20
+ addUserKnob {26 ""}
+ addUserKnob {3 framerange l "frame range"}
+ framerange 5
+ addUserKnob {41 firstframe l "first frame" T ff_framerange.firstframe}
+ addUserKnob {41 lastframe l "last frame" T ff_framerange.lastframe}
+ addUserKnob {26 ""}
+ addUserKnob {26 description l "" +STARTLINE T "Simple on/off at desired frame. Useful for muzzle flashes etc."}
+ addUserKnob {26 ver l "" +STARTLINE T "\nv2.0"}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 710
+  ypos 540
+ }
+ Dot {
+  name Dot1
+  note_font_size 27
+  note_font_color 0xffffff
+  xpos 741
+  ypos 591
+ }
+set N2fe55740 [stack 0]
+ Multiply {
+  value 0
+  name Mult_FrameRange
+  tile_color 0xffbf00ff
+  xpos 710
+  ypos 637
+  disable {{"x<=ff_framerange.firstframe-1 || x>ff_framerange.lastframe?0:1"}}
+ }
+set N2fe29b20 [stack 0]
+push $N2fe55740
+ Dot {
+  name Dot2
+  label single
+  note_font Arial
+  note_font_size 18
+  note_font_color 0xffffff
+  xpos 441
+  ypos 591
+ }
+ Multiply {
+  value {{curve x-1 0 1 0}}
+  name Multiply2
+  xpos 410
+  ypos 637
+ }
+ TimeOffset {
+  time_offset {{+FlashFrame.flash}}
+  time ""
+  name TimeOffset1
+  label "\[knob time_offset]"
+  xpos 410
+  ypos 687
+ }
+ Switch {
+  inputs 2
+  which {{FlashFrame.ff_type}}
+  name Switch1
+  xpos 710
+  ypos 841
+ }
+ Output {
+  name Output1
+  xpos 710
+  ypos 941
+ }
+ NoOp {
+  inputs 0
+  name ff_framerange
+  tile_color 0xff0000ff
+  xpos 860
+  ypos 591
+  addUserKnob {20 User}
+  addUserKnob {3 firstframe l "first frame"}
+  firstframe {{+FlashFrame.flash x27 26}}
+  addUserKnob {3 lastframe l "last frame"}
+  lastframe {{+FlashFrame.flash+framerange}}
+ }
+push $N2fe29b20
+ Viewer {
+  frame 20
+  frame_range 1-100
+  fps 25
+  name Viewer1
+  xpos 597
+  ypos 691
+ }
+end_group

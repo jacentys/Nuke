@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="1" w="2560" h="1440" maximized="1" screen="0">
+        <splitter orientation="2">
+            <split size="1058"/>
+            <splitter orientation="1">
+                <split size="0"/>
+                <dock id="" activePageId="uk.co.thefoundry.project.2">
+                    <page id="uk.co.thefoundry.project.2" layout="splitter(0,0)"/>
+                </dock>
+                <split size="457"/>
+                <splitter orientation="2">
+                    <split size="229"/>
+                    <dock id="" hideTitles="1" activePageId="uk.co.thefoundry.histogram.1">
+                        <page id="uk.co.thefoundry.histogram.1"/>
+                    </dock>
+                    <split size="356"/>
+                    <dock id="" activePageId="Pixel Analyzer.1">
+                        <page id="Pixel Analyzer.1"/>
+                    </dock>
+                    <split size="378"/>
+                    <dock id="" activePageId="uk.co.thefoundry.clipeffects.1">
+                        <page id="uk.co.thefoundry.clipeffects.1"/>
+                        <page id="uk.co.thefoundry.metadata.1"/>
+                    </dock>
+                    <split size="83"/>
+                    <dock id="" hideTitles="1" activePageId="uk.co.thefoundry.monitorController.1">
+                        <page id="uk.co.thefoundry.monitorController.1"/>
+                    </dock>
+                </splitter>
+                <split size="2095"/>
+                <dock id="" activePageId="uk.co.thefoundry.sequenceviewer.1" focus="true">
+                    <page id="uk.co.thefoundry.sequenceviewer.1"/>
+                    <page id="uk.co.thefoundry.exportqueue.1"/>
+                    <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+                    <page id="Error Console.1"/>
+                </dock>
+            </splitter>
+            <split size="356"/>
+            <dock id="" activePageId="uk.co.thefoundry.timeline.1">
+                <page id="uk.co.thefoundry.timeline.1" layout="splitter(0,2556)"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>

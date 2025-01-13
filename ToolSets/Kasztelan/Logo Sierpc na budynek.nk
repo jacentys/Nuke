@@ -1,0 +1,53 @@
+set cut_paste_input [stack 0]
+version 10.5 v1
+Read {
+ inputs 0
+ file "/Users/jacenty/Desktop/Kasztelan-Kuflem-27-170118/010-Src/napisy/Logo Sierpc.tif"
+ format "1000 750 0 0 1000 750 1 "
+ first 0
+ last 0
+ origset true
+ colorspace sRGB
+ auto_alpha true
+ name Read3
+ selected true
+ xpos -184
+ ypos -63
+}
+Blur {
+ size 13
+ name Blur2
+ selected true
+ xpos -184
+ ypos 27
+}
+set N734f0d40 [stack 0]
+Transform {
+ translate {460.999939 -99.80001068}
+ scale 0.1000000015
+ center {566 808}
+ name Transform14
+ selected true
+ xpos -61
+ ypos 59
+}
+push 0
+push $N734f0d40
+Transform {
+ translate {-138.3999939 -153.9200287}
+ scale 0.13
+ center {538 882}
+ name Transform13
+ selected true
+ xpos -184
+ ypos 59
+}
+push $cut_paste_input
+Merge2 {
+ inputs 3+1
+ mix 0.905
+ name Merge3
+ selected true
+ xpos 80
+ ypos 176
+}

@@ -1,0 +1,25 @@
+set cut_paste_input [stack 0]
+version 11.0 v2
+push $cut_paste_input
+Transform {
+ rotate {{-Transform_reka.rotate-Transform_ramie.rotate x1 0}}
+ center {970 756}
+ name Transform_kufel
+ selected true
+ xpos -460
+ ypos -78
+}
+Transform {
+ center {960 540}
+ name Transform_reka
+ selected true
+ xpos -460
+ ypos -54
+}
+Transform {
+ center {958 352}
+ name Transform_ramie
+ selected true
+ xpos -460
+ ypos -30
+}

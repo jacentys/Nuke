@@ -1,0 +1,17 @@
+set cut_paste_input [stack 0]
+version 10.0 v1
+push $cut_paste_input
+Transform {
+ translate {{random((offset+frame)/wygladzenie)*skala} {random((offset+frame)/wygladzenie)*skala}}
+ center {1000 592}
+ name Transform5
+ selected true
+ xpos 230
+ ypos 9
+ addUserKnob {20 User}
+ addUserKnob {7 wygladzenie l Wygladzenie R 0 100}
+ addUserKnob {7 offset l Offset R 0 1000}
+ offset 70
+ addUserKnob {7 skala l Skala R 0 1000}
+ skala 25
+}

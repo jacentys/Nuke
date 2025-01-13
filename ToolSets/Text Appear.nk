@@ -1,0 +1,43 @@
+set cut_paste_input [stack 0]
+version 10.0 v2
+push $cut_paste_input
+Text2 {
+font_size_toolbar 27.5
+font_width_toolbar 100
+font_height_toolbar 100
+message "\[string range \[value tekst] 0 \[value integer]]"
+old_message {{77 82 65 32 55 53}
+  }
+old_expression_markers {{0 5}
+  }
+box {42 391 320 425.3999939}
+xjustify center
+yjustify center
+transforms {{0 2}
+  }
+font_size_values {{0 27.5 1 27.5 2 27.5 3 27.5 4 27.5 5 27.5}
+  }
+cursor_position 30
+font {{ Myriad Pro : Bold : MyriadPro-Bold.otf : 0 }}
+font_size 27.5
+scale {1 1}
+cursor_initialised true
+autofit_bbox false
+initial_cursor_position {{352.5 285.25}
+  }
+group_animations {{0} imported: 0 selected: items: "root transform/"}
+animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+  }
+color {0 0 0 1}
+name Text1
+selected true
+xpos -35
+ypos 884
+addUserKnob {20 User}
+addUserKnob {3 liter}
+liter {{curve x10 3 x40 7}}
+addUserKnob {3 integer l INVISIBLE +INVISIBLE}
+integer {{int(curve) x10 3 x40 7}}
+addUserKnob {1 tekst}
+tekst "MRA 75TM"
+}

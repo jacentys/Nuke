@@ -1,0 +1,24 @@
+#! /Applications/Nuke11.0v2/Nuke11.0v2.app/Contents/MacOS/libnuke-11.0.2.dylib -nx
+version 11.0 v2
+Gizmo {
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 197
+  ypos -66
+ }
+ Vectorfield {
+  vfield_file /Volumes/Post/.nuke/RLF_2_RG4.cube
+  version 2
+  file_type cube
+  name Vectorfield1
+  xpos 197
+  ypos -26
+ }
+ Output {
+  name Output1
+  xpos 197
+  ypos 74
+ }
+end_group

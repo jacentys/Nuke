@@ -1,0 +1,42 @@
+set cut_paste_input [stack 0]
+version 10.5 v1
+Read {
+ inputs 0
+ file "/Users/jacenty/Desktop/Kasztelan-Kuflem-27-170118/010-Src/napisy/kasztelan rendery/logo_niepasteryzowane.png"
+ format "1000 768 0 0 1000 768 1 "
+ first 0
+ last 0
+ origset true
+ colorspace sRGB
+ auto_alpha true
+ name Read4
+ selected true
+ xpos 602
+ ypos -131
+}
+Premult {
+ name Premult2
+ selected true
+ xpos 602
+ ypos -41
+}
+Transform {
+ translate {-369.571991 645.3502197}
+ scale 0.134
+ center {490 -235}
+ name Transform12
+ selected true
+ xpos 602
+ ypos -17
+}
+set Nb5d7be50 [stack 0]
+push $Nb5d7be50
+push $cut_paste_input
+Merge2 {
+ inputs 2+1
+ operation multiply
+ name Merge2
+ selected true
+ xpos 380
+ ypos 252
+}
