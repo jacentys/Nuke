@@ -42,6 +42,10 @@ layer = nuke.thisNode().knob('layer').value()
 if layer == '--':
     layer = ''
 
+odcinek = nuke.thisNode().knob('odcinek').value()
+if odcinek != '':
+	odcinek = odcinek + '/'
+
 renderNoise = nuke.thisNode().knob('renderNoise').getValue()
 if renderNoise == 0:
     nuke.toNode('Write_Noise').knob('disable').setValue(True)
@@ -88,10 +92,10 @@ nuke.thisNode().knob('dlugosc').setValue(dlugosc)
 
 nuke.toNode(readNode).knob('colorspace').setValue(nuke.thisNode().knob('inputColorSpace').value())
 
-full = rootPath+'010-Sources-Camera/' + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
-proksy = rootPath+'010-Sources-Camera/p/' + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
-noise = rootPath+'010-Sources-Camera/n/' + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
-proksyNoise = rootPath+'010-Sources-Camera/pn/' + nazwaPliku + '/' + nazwaPliku +'.%07d.exr'
+full = rootPath +'010-Sources-Camera/' + odcinek + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
+proksy = rootPath +'010-Sources-Camera/p/' + odcinek + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
+noise = rootPath +'010-Sources-Camera/n/' + odcinek + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
+proksyNoise = rootPath +'010-Sources-Camera/pn/' + odcinek + nazwaPliku + '/' + nazwaPliku +'.%07d.exr'
 
 nuke.thisNode().knob('full').setValue(full)
 nuke.thisNode().knob('proksy').setValue(proksy)
