@@ -1,139 +1,158 @@
 import re
 
-readConnectedNode = nuke.selectedNode().dependencies()[0]
-readNode = readConnectedNode.name()
+def selectSetupNode():
+    nukescripts.clear_selection_recursive()
+    n = nuke.toNode("Setup")
+    n.knob('selected').setValue(True)
 
-def kc_func():
-     n = nuke.thisNode()
-     k = nuke.thisKnob()
-     if k.name() == "inputColorSpace":
-          nuke.toNode('Write_Full').knob('colorspace').setValue(thisNode().knob('inputColorSpace').value())
-          nuke.toNode('Write_Proxy').knob('colorspace').setValue(nuke.thisNode().knob('inputColorSpace').value())
-          nuke.toNode(readNode).knob('colorspace').setValue(nuke.thisNode().knob('inputColorSpace').value())
+def setReadToVarreadNode(): #### readNode = pierwszy nod w układce
+    global readNode
+    readConnectedNode = nuke.selectedNode().dependencies()[0]
+    readNode = readConnectedNode.name()
 
-sel = nuke.selectedNode()
-sel.knob('knobChanged').setValue('kc_func()')
 
-plik = nuke.toNode(readNode).knob('file').getValue()
-splitted = plik.split('/')
-start = nuke.toNode(readNode).knob('first').getValue()
-koniec = nuke.toNode(readNode).knob('last').getValue()
-dlugosc = koniec - start + 1
-
-nuke.Root()['first_frame'].setValue(start)
-nuke.Root()['last_frame'].setValue(koniec)
-
-#Inaczej dla macos, inaczej dla windy
-if splitted[1] == "Volumes":
-    dysk = splitted[2]
-    projektNazwa = splitted[3]
-else:
-    dysk = splitted[0]
-    projektNazwa = splitted[1]
-
-projektShort = projektNazwa.upper()[:3]
-ujecie = splitted[len(splitted)-2]
-
-print(projektNazwa)
-print(projektShort)
-print(ujecie)
-
-layer = nuke.thisNode().knob('layer').value()
-if layer == '--':
-    layer = ''
-
-odcinek = nuke.thisNode().knob('odcinek').value()
-if odcinek != '':
-	odcinek = odcinek + '/'
-
-renderNoise = nuke.thisNode().knob('renderNoise').getValue()
-if renderNoise == 0:
-    nuke.toNode('Write_Noise').knob('disable').setValue(True)
-    nuke.toNode('Write_Proxy_Noise').knob('disable').setValue(True)
-    nuke.thisNode().knob('noise').setEnabled(False)
-    nuke.thisNode().knob('proksyNoise').setEnabled(False)
-else:
-    nuke.toNode('Write_Noise').knob('disable').setValue(False)
-    nuke.toNode('Write_Proxy_Noise').knob('disable').setValue(False)
-    nuke.thisNode().knob('noise').setEnabled(True)
-    nuke.thisNode().knob('proksyNoise').setEnabled(True)
-
-#Jesli ujecie jest w formacie A000B000
-n = re.search('([A-Z][0-9][0-9][0-9][A-Z][0-9][0-9][0-9])', plik)
-if n:
-    numerUjecia = n.group(1)
-    nazwaPliku = numerUjecia + layer
-else: #Jesli ujecie jest w formacie AAA-1234
-    n = re.search('([A-Z][A-Z][A-Z]-)(\d+)', ujecie)
+def findShotNumber(projectShort, file): #### Szukaj numeru ujęcia w nazwie pliku
+    n = re.search('([A-Z][0-9][0-9][0-9][A-Z][0-9][0-9][0-9])', file)
     if n:
-        numerUjecia = n.group(2)
-        nazwaPliku = projektShort + '-' + numerUjecia + layer
+        shotNo = n.group(1)
+        fileName = shotNo
+    else: #Jesli ujecie jest w formacie AAA-1234
+        n = re.search('([A-Z][A-Z][A-Z]-)(\d+)', file)
+        if n:
+            shotNo = n.group(2)
+            fileName = projectShort + '-' + shotNo
+        else:
+            shotNo = file
+            fileName = file
+    return [shotNo, fileName]
+
+def disableNoise(): #### Wyłączenie noise jeśli niepotrzebny
+    renderNoise = nuke.thisNode().knob('renderNoise').getValue()
+    if renderNoise == 0:
+        nuke.toNode('Write_Noise').knob('disable').setValue(True)
+        nuke.toNode('Write_Proxy_Noise').knob('disable').setValue(True)
+        nuke.thisNode().knob('noise').setEnabled(False)
+        nuke.thisNode().knob('proksyNoise').setEnabled(False)
     else:
-        numerUjecia = ujecie
-        nazwaPliku = ujecie + layer
+        nuke.toNode('Write_Noise').knob('disable').setValue(False)
+        nuke.toNode('Write_Proxy_Noise').knob('disable').setValue(False)
+        nuke.thisNode().knob('noise').setEnabled(True)
+        nuke.thisNode().knob('proksyNoise').setEnabled(True)
 
-#Stworzenie sciezki
-if splitted[1] == "Volumes":
-    rootPath = '/Volumes/' + dysk + '/' + projektNazwa + '/'
-else:
-    rootPath = dysk + '/' + projektNazwa + '/'
+def getVarFromRead(): #### Odczytaj dane o sekwencji z Read
+    global knobVariable
+    filePath = nuke.toNode(readNode).knob('file').getValue()
+    filePathSplitted = filePath.split('/')
+    fileName = filePathSplitted[len(filePathSplitted)-2]
+    fileStart = int(nuke.toNode(readNode).knob('first').getValue())
+    fileEnd = int(nuke.toNode(readNode).knob('last').getValue())
+    fileLength = fileEnd - fileStart + 1
 
-print(rootPath)
+    if filePathSplitted[1] == "Volumes": #### Sprawdzanie jaka ścieżka dostępu.
+        os = 0 # MacOS, Lunux
+    else:
+        os = 1 # Winda
 
-nuke.thisNode().knob('zrodlo').setValue(plik)
-nuke.thisNode().knob('dysk').setValue(dysk)
-nuke.thisNode().knob('rootPath').setValue(rootPath)
-nuke.thisNode().knob('projectName').setValue(projektNazwa)
-nuke.thisNode().knob('projectShort').setValue(projektShort)
-nuke.thisNode().knob('shotNo').setValue(numerUjecia)
-nuke.thisNode().knob('start').setValue(start)
-nuke.thisNode().knob('koniec').setValue(koniec)
-nuke.thisNode().knob('dlugosc').setValue(dlugosc)
+    if os == 0: #### Inaczej dla macos, inaczej dla windy - ścieżki dostępu
+        dysk = filePathSplitted[2]
+        projectName = filePathSplitted[3]
+        rootPath = '/Volumes/' + dysk + '/' + projectName + '/'
+    else:
+        dysk = filePathSplitted[0]
+        projectName = filePathSplitted[1]
+        rootPath = dysk + '/' + projectName + '/'
+    projectShort = projectName.upper()[:3]
 
-nuke.toNode(readNode).knob('colorspace').setValue(nuke.thisNode().knob('inputColorSpace').value())
+    shotNo = findShotNumber(projectShort, fileName)[0]
+    fileName =  findShotNumber(projectShort, fileName)[1]
 
-full = rootPath +'010-Sources-Camera/' + odcinek + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
-proksy = rootPath +'010-Sources-Camera/p/' + odcinek + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
-noise = rootPath +'010-Sources-Camera/n/' + odcinek + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
-proksyNoise = rootPath +'010-Sources-Camera/pn/' + odcinek + nazwaPliku + '/' + nazwaPliku +'.%07d.exr'
+    #### Odczytaj colorspace i ustaw w zapisywanych
+    fileColorSpace = int(nuke.toNode(readNode).knob('colorspace').getValue())
+    nuke.toNode('Write_Full').knob('colorspace').setValue(fileColorSpace)
+    nuke.toNode('Write_Proxy').knob('colorspace').setValue(fileColorSpace)
+    nuke.toNode('Write_Noise').knob('colorspace').setValue(fileColorSpace)
+    nuke.toNode('Write_Proxy_Noise').knob('colorspace').setValue(fileColorSpace)
 
-nuke.thisNode().knob('full').setValue(full)
-nuke.thisNode().knob('proksy').setValue(proksy)
-nuke.thisNode().knob('noise').setValue(noise)
-nuke.thisNode().knob('proksyNoise').setValue(proksyNoise)
+    #### Ustaw początek i koniec globalny
+    nuke.Root()['first_frame'].setValue(fileStart)
+    nuke.Root()['last_frame'].setValue(fileEnd)
 
-#Full
-nuke.toNode('Write_Full').knob('file').setValue(full)
-nuke.toNode('Write_Full').knob('first').setValue(start)
-nuke.toNode('Write_Full').knob('last').setValue(koniec)
-nuke.toNode('Write_Full').knob('create_directories').setValue(1)
-nuke.toNode('Write_Full').knob('use_limit').setValue(1)
-nuke.toNode('Write_Full').knob('colorspace').setValue(nuke.thisNode().knob('inputColorSpace').value())
-nuke.toNode('Write_Full').knob('interleave').setValue('channels')
+    knobVariable = [filePath, fileName, fileStart, fileEnd, fileLength, fileColorSpace, dysk, rootPath, projectName, projectShort, shotNo]
+    #, pathFull, pathNoise, pathProxy, pathProxyNoise]
 
-#Proxy
-nuke.toNode('Write_Proxy').knob('file').setValue(proksy)
-nuke.toNode('Write_Proxy').knob('first').setValue(start)
-nuke.toNode('Write_Proxy').knob('last').setValue(koniec)
-nuke.toNode('Write_Proxy').knob('create_directories').setValue(1)
-nuke.toNode('Write_Proxy').knob('use_limit').setValue(1)
-nuke.toNode('Write_Proxy').knob('colorspace').setValue(nuke.thisNode().knob('inputColorSpace').value())
-nuke.toNode('Write_Proxy').knob('interleave').setValue('channels')
+    print(knobVariable)
 
-#Noise
-nuke.toNode('Write_Noise').knob('file').setValue(noise)
-nuke.toNode('Write_Noise').knob('first').setValue(start)
-nuke.toNode('Write_Noise').knob('last').setValue(koniec)
-nuke.toNode('Write_Noise').knob('create_directories').setValue(1)
-nuke.toNode('Write_Noise').knob('use_limit').setValue(1)
-nuke.toNode('Write_Noise').knob('colorspace').setValue(nuke.thisNode().knob('inputColorSpace').value())
-nuke.toNode('Write_Noise').knob('interleave').setValue('channels')
 
-#Proxy Noise
-nuke.toNode('Write_Proxy_Noise').knob('file').setValue(proksyNoise)
-nuke.toNode('Write_Proxy_Noise').knob('first').setValue(start)
-nuke.toNode('Write_Proxy_Noise').knob('last').setValue(koniec)
-nuke.toNode('Write_Proxy_Noise').knob('create_directories').setValue(1)
-nuke.toNode('Write_Proxy_Noise').knob('use_limit').setValue(1)
-nuke.toNode('Write_Proxy_Noise').knob('colorspace').setValue(nuke.thisNode().knob('inputColorSpace').value())
-nuke.toNode('Write_Proxy_Noise').knob('interleave').setValue('channels')
+def setSetupKnobsValue(): #### Wprowadź w pola dane
+    nuke.thisNode().knob('zrodlo').setValue(knobVariable[0])
+
+    nuke.thisNode().knob('start').setValue(knobVariable[2])
+    nuke.thisNode().knob('koniec').setValue(knobVariable[3])
+    nuke.thisNode().knob('dlugosc').setValue(knobVariable[4])
+
+    nuke.thisNode().knob('dysk').setValue(knobVariable[6])
+    nuke.thisNode().knob('rootPath').setValue(knobVariable[7])
+    nuke.thisNode().knob('projectName').setValue(knobVariable[8])
+    nuke.thisNode().knob('projectShort').setValue(knobVariable[9])
+    nuke.thisNode().knob('shotNo').setValue(knobVariable[10])
+
+    episode = nuke.thisNode().knob('odcinek').value()
+    if episode != '':
+        episode = '/' + episode
+
+    layer = nuke.toNode('Setup').knob('layer').value()
+    if layer == '--':
+        layer = ''
+
+    rootPath = nuke.toNode('Setup').knob('rootPath').value()
+    shotName = nuke.toNode('Setup').knob('projectShort').value() + '-' + nuke.toNode('Setup').knob('shotNo').value()
+    nuke.thisNode().knob('shotName').setValue(shotName)
+
+    pathFull = rootPath +'010-Sources-Camera' + episode + '/' + shotName + layer + '/' + shotName + layer + '.%07d.exr'
+    nuke.thisNode().knob('full').setValue(pathFull)
+    pathProxy = rootPath +'010-Sources-Camera/p' + episode + '/' + shotName + layer + '/' + shotName + layer + '.%07d.exr'
+    nuke.thisNode().knob('proksy').setValue(pathProxy)
+    pathNoise = rootPath +'010-Sources-Camera/n' + episode + '/' + shotName + layer + '/' + shotName + layer + '.%07d.exr'
+    nuke.thisNode().knob('noise').setValue(pathNoise)
+    pathProxyNoise = rootPath +'010-Sources-Camera/pn' + episode + '/' + shotName + layer + '/' + shotName + layer +'.%07d.exr'
+    nuke.thisNode().knob('proksyNoise').setValue(pathProxyNoise)
+
+def setWriteNodes():
+    #### Ustawienia Write Full
+    nuke.toNode('Write_Full').knob('file').setValue(nuke.toNode('Setup').knob('full').value())
+    nuke.toNode('Write_Full').knob('first').setValue(nuke.toNode('Setup').knob('start').getValue())
+    nuke.toNode('Write_Full').knob('last').setValue(nuke.toNode('Setup').knob('koniec').getValue())
+    nuke.toNode('Write_Full').knob('create_directories').setValue(1)
+    nuke.toNode('Write_Full').knob('use_limit').setValue(1)
+    nuke.toNode('Write_Full').knob('interleave').setValue('channels')
+
+    #### Ustawienia Write Proxy
+    nuke.toNode('Write_Proxy').knob('file').setValue(nuke.toNode('Setup').knob('proksy').value())
+    nuke.toNode('Write_Proxy').knob('first').setValue(nuke.toNode('Setup').knob('start').getValue())
+    nuke.toNode('Write_Proxy').knob('last').setValue(nuke.toNode('Setup').knob('koniec').getValue())
+    nuke.toNode('Write_Proxy').knob('create_directories').setValue(1)
+    nuke.toNode('Write_Proxy').knob('use_limit').setValue(1)
+    nuke.toNode('Write_Proxy').knob('interleave').setValue('channels')
+
+    #### Ustawienia Write Noise
+    nuke.toNode('Write_Noise').knob('file').setValue(nuke.toNode('Setup').knob('noise').value())
+    nuke.toNode('Write_Noise').knob('first').setValue(nuke.toNode('Setup').knob('start').getValue())
+    nuke.toNode('Write_Noise').knob('last').setValue(nuke.toNode('Setup').knob('koniec').getValue())
+    nuke.toNode('Write_Noise').knob('create_directories').setValue(1)
+    nuke.toNode('Write_Noise').knob('use_limit').setValue(1)
+    nuke.toNode('Write_Noise').knob('interleave').setValue('channels')
+
+    #### Ustawienia Write Proxy Noise
+    nuke.toNode('Write_Proxy_Noise').knob('file').setValue(nuke.toNode('Setup').knob('proksyNoise').value())
+    nuke.toNode('Write_Proxy_Noise').knob('first').setValue(nuke.toNode('Setup').knob('start').getValue())
+    nuke.toNode('Write_Proxy_Noise').knob('last').setValue(nuke.toNode('Setup').knob('koniec').getValue())
+    nuke.toNode('Write_Proxy_Noise').knob('create_directories').setValue(1)
+    nuke.toNode('Write_Proxy_Noise').knob('use_limit').setValue(1)
+    nuke.toNode('Write_Proxy_Noise').knob('interleave').setValue('channels')
+
+selectSetupNode()
+setReadToVarreadNode()
+getVarFromRead()
+disableNoise()
+setSetupKnobsValue()
+setWriteNodes()
