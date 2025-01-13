@@ -1,30 +1,73 @@
-start = nuke.thisNode().knob('start').getValue()
-koniec = nuke.thisNode().knob('koniec').getValue()
-shotNum = nuke.thisNode().knob('shotNo').getValue()
+rootPath = nuke.toNode('Setup').knob('rootPath').getValue()
+projektShort = nuke.toNode('Setup').knob('projectShort').getValue()
+projektNazwa = nuke.toNode('Setup').knob('projectName').getValue()
+numerUjecia = nuke.toNode('Setup').knob('shotNo').getValue()
+start = nuke.toNode('Setup').knob('start').getValue()
+koniec = nuke.toNode('Setup').knob('koniec').getValue()
 
-full = 'P:/Marusarz_21015_Besta/010-Sources-Camera/MAR-'+shotNum+'/MAR-'+shotNum+'.%07d.exr'
-proksy = 'P:/Marusarz_21015_Besta/010-Sources-Camera/p/MAR-'+shotNum+'/MAR-'+shotNum+'.%07d.exr'
+layer = nuke.toNode('Setup').knob('layer').value()
+if layer == '--':
+    layer = ''
+
+renderNoise = nuke.thisNode().knob('renderNoise').getValue()
+if renderNoise == 0:
+    nuke.toNode('Write_Noise').knob('disable').setValue(True)
+    nuke.toNode('Write_Proxy_Noise').knob('disable').setValue(True)
+    nuke.thisNode().knob('noise').setEnabled(False)
+    nuke.thisNode().knob('proksyNoise').setEnabled(False)
+else:
+    nuke.toNode('Write_Noise').knob('disable').setValue(False)
+    nuke.toNode('Write_Proxy_Noise').knob('disable').setValue(False)
+    nuke.thisNode().knob('noise').setEnabled(True)
+    nuke.thisNode().knob('proksyNoise').setEnabled(True)
+
+nazwaPliku = projektShort + '-' + numerUjecia + layer
+
+full = rootPath+'010-Sources-Camera/' + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
+proksy = rootPath+'010-Sources-Camera/p/' + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
+noise = rootPath+'010-Sources-Camera/n/' + nazwaPliku + '/' + nazwaPliku + '.%07d.exr'
+proksyNoise = rootPath+'010-Sources-Camera/pn/' + nazwaPliku + '/' + nazwaPliku +'.%07d.exr'
 
 nuke.thisNode().knob('full').setValue(full)
 nuke.thisNode().knob('proksy').setValue(proksy)
+nuke.thisNode().knob('noise').setValue(noise)
+nuke.thisNode().knob('proksyNoise').setValue(proksyNoise)
+
+nuke.Root()['first_frame'].setValue(start)
+nuke.Root()['last_frame'].setValue(koniec)
 
 #Full
 nuke.toNode('Write_Full').knob('file').setValue(full)
-nuke.toNode('Write_Full').knob('first').setValue(start)
-nuke.toNode('Write_Full').knob('last').setValue(koniec)
+nuke.toNode('Write_Full').knob('first').setValue(nuke.toNode('Setup').knob('start').getValue())
+nuke.toNode('Write_Full').knob('last').setValue(nuke.toNode('Setup').knob('koniec').getValue())
 nuke.toNode('Write_Full').knob('create_directories').setValue(1)
 nuke.toNode('Write_Full').knob('use_limit').setValue(1)
-nuke.toNode('Write_Full').knob('colorspace').setValue('linear')
+nuke.toNode('Write_Full').knob('colorspace').setValue(nuke.toNode('Setup').knob('inputColorSpace').value())
 nuke.toNode('Write_Full').knob('interleave').setValue('channels')
 
 #Proxy
 nuke.toNode('Write_Proxy').knob('file').setValue(proksy)
-nuke.toNode('Write_Proxy').knob('first').setValue(start)
-nuke.toNode('Write_Proxy').knob('last').setValue(koniec)
-nuke.toNode('Write_Full').knob('create_directories').setValue(1)
-nuke.toNode('Write_Full').knob('use_limit').setValue(1)
-nuke.toNode('Write_Full').knob('colorspace').setValue('linear')
-nuke.toNode('Write_Full').knob('interleave').setValue('channels')
+nuke.toNode('Write_Proxy').knob('first').setValue(nuke.toNode('Setup').knob('start').getValue())
+nuke.toNode('Write_Proxy').knob('last').setValue(nuke.toNode('Setup').knob('koniec').getValue())
+nuke.toNode('Write_Proxy').knob('create_directories').setValue(1)
+nuke.toNode('Write_Proxy').knob('use_limit').setValue(1)
+nuke.toNode('Write_Proxy').knob('colorspace').setValue(nuke.toNode('Setup').knob('inputColorSpace').value())
+nuke.toNode('Write_Proxy').knob('interleave').setValue('channels')
 
-print(full)
-print(proksy)
+#Noise
+nuke.toNode('Write_Noise').knob('file').setValue(noise)
+nuke.toNode('Write_Noise').knob('first').setValue(start)
+nuke.toNode('Write_Noise').knob('last').setValue(koniec)
+nuke.toNode('Write_Noise').knob('create_directories').setValue(1)
+nuke.toNode('Write_Noise').knob('use_limit').setValue(1)
+nuke.toNode('Write_Noise').knob('colorspace').setValue(nuke.thisNode().knob('inputColorSpace').value())
+nuke.toNode('Write_Noise').knob('interleave').setValue('channels')
+
+#Proxy Noise
+nuke.toNode('Write_Proxy_Noise').knob('file').setValue(proksyNoise)
+nuke.toNode('Write_Proxy_Noise').knob('first').setValue(start)
+nuke.toNode('Write_Proxy_Noise').knob('last').setValue(koniec)
+nuke.toNode('Write_Proxy_Noise').knob('create_directories').setValue(1)
+nuke.toNode('Write_Proxy_Noise').knob('use_limit').setValue(1)
+nuke.toNode('Write_Proxy_Noise').knob('colorspace').setValue(nuke.thisNode().knob('inputColorSpace').value())
+nuke.toNode('Write_Proxy_Noise').knob('interleave').setValue('channels')
