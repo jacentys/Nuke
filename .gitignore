@@ -1,0 +1,66 @@
+# Xcode and Swift specific
+#
+# User-specific files
+*.xcuserstate
+*.xcuserdata/
+
+# Build generated files
+build/
+DerivedData/
+
+# Xcode workspace settings
+xcshareddata/
+
+# Swift Package Manager files
+/.build/
+Package.resolved
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/
+
+# SwiftPM Xcode
+.xcworkspace/
+
+# Temporary files
+*.swp
+*.swo
+*.lock
+*.log
+
+# Python specific
+#
+# Bytecode files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+.virtualenv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python distribution and packaging
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+*.manifest
+*.spec
+.installed.cfg
+*.bak
+
+# Other files
+.DS_Store
+Thumbs.db
